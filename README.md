@@ -18,7 +18,7 @@ This makefile assumes a few things about the folder structure of your project:
 
 In addition, the files generated while building will adhere to the following structure:
 - All built files will be contained in a folder called "output".
-- Inside "output", a subfolder will be created based on the OS and architecture you are building on.
+- Inside "output", a subfolder will be created based on the OS and architecture you are building on (e.g. win_x86_64).
 - Inside the above subfolder, there are two additional subfolders:
   - bin - This contains subfolders "release" and "debug", each containing the appropriate executable program.
   - build - This contains subfolders "release" and "debug", each containing the appropriate intermediary files (.d and .o).
@@ -39,6 +39,8 @@ Note that all of these (except rebuild) can be done in parallel. For example:
 ```
 make -j8 all
 ```
+
+As described above, the generated files will be in different subfolders depending on the OS and architecture you are building on as well as if it is the release or debug build.
 
 # Cleaning
 You can remove all output files by executing:
