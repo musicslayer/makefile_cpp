@@ -1,0 +1,10 @@
+AccessModifierOffset: -4
+BasedOnStyle: LLVM
+BreakBeforeBraces: Attach
+DerivePointerAlignment: false
+IndentWidth: 4
+NamespaceIndentation: All
+PointerAlignment: Left
+SortIncludes: true
+SpaceBeforeParens: Never
+UseTab: Never

@@ -1,0 +1,16 @@
+Checks: >
+  bugprone-*,
+  clang-analyzer-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  security-*,
+  -misc-confusable-identifiers,
+  -modernize-use-trailing-return-type,
+  -modernize-use-auto,
+
+FormatStyle: file
+
+HeaderFilterRegex: '^include/'
