@@ -72,3 +72,26 @@ If the executable doesn't exist or the source code has changed since it was last
 Note that "run" will run the release executable, while "run-debug" and "run-gdb" will use the debug executable. The makefile builds these two using different compiler flags, and thus there may be different behavior between the two.
 - Release uses -O2 whereas debug uses -O0, changing the amount of optimizations applied.
 - Debug uses -g to ensure that debugging symbols are generated.
+ 
+# Command Line Options
+This makefile provides one variable that can be configured via the command line: VERBOSE. For example, the following produces no output (as long as there are no errors):
+
+```
+make rebuild
+```
+
+Whereas the following will produce output:
+
+```
+make rebuild VERBOSE=1
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/app.cpp -o output/win_x86_64/build/release/app.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/main.cpp -o output/win_x86_64/build/release/main.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/sub/other.cpp -o output/win_x86_64/build/release/sub/other.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 output/win_x86_64/build/release/app.o output/win_x86_64/build/release/main.o output/win_x86_64/build/release/sub/other.o -o output/win_x86_64/bin/release/myapp
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/app.cpp -o output/win_x86_64/build/debug/app.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/main.cpp -o output/win_x86_64/build/debug/main.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/sub/other.cpp -o output/win_x86_64/build/debug/sub/other.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 output/win_x86_64/build/debug/app.o output/win_x86_64/build/debug/main.o output/win_x86_64/build/debug/sub/other.o -o output/win_x86_64/bin/debug/myapp_debug
+```
+
+Setting VERBOSE to 1 allows for additional output, whereas setting it to any other value (or not setting it at all) suppresses the output. Note that not all make operations will produce additional output with the VERBOSE option.
