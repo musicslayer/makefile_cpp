@@ -41,7 +41,6 @@ jobs:
             echo "Bin folder not found. Exiting."
             exit 1
           fi
-
           if [ -x /opt/homebrew/opt/llvm/bin ]; then
             echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
           elif [ -x /usr/local/opt/llvm/bin ]; then
