@@ -40,7 +40,7 @@ HDRS := $(shell bash -c 'shopt -s globstar nullglob; echo $(HDR_DIR)/**/*.h')
 # Compiler
 CXX := g++
 
-CXXFLAGS := -I $(HDR_DIR) -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole
+CXXFLAGS := -I $(HDR_DIR) -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP
 ifeq ($(OS_NAME),linux)
     CXXFLAGS += -DLINUX
 endif
@@ -48,7 +48,7 @@ ifeq ($(OS_NAME),mac)
     CXXFLAGS += -DMACOS
 endif
 ifeq ($(OS_NAME),win)
-    CXXFLAGS += -DWIN32 -pthread -static -static-libgcc -static-libstdc++
+    CXXFLAGS += -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++
 endif
 
 CXXFLAGS_LINT := $(CXXFLAGS) -Wno-unknown-warning-option -Wno-unused-command-line-argument
