@@ -33,15 +33,25 @@ jobs:
         run: brew list gcc &>/dev/null || brew install gcc
 
       - name: Install modern Bash
-        run: brew install bash
+        run: |
+          brew install bash
+          if [ -x /opt/homebrew/bin/bash ]; then
+            BASH_PATH=/opt/homebrew/bin/bash
+          elif [ -x /usr/local/bin/bash ]; then
+            BASH_PATH=/usr/local/bin/bash
+          else
+            echo "Modern Bash not found. Exiting."
+            exit 1
+          fi
+          echo "BASH_PATH=$BASH_PATH" >> $GITHUB_ENV
 
       - name: Rebuild
         run: make rebuild
-        shell: /opt/homebrew/bin/bash
+        shell: /usr/local/bin/bash
 
       - name: Run release version
         run: make run
-        shell: /opt/homebrew/bin/bash
+        shell: /usr/local/bin/bash
 
   build-windows:
     runs-on: windows-latest
