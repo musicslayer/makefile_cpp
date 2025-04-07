@@ -1,10 +1,10 @@
-name: C++ Cross-Platform Build
+name: C++ Cross-Platform Run
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-linux:
+  run-linux:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -19,7 +19,11 @@ jobs:
         run: make rebuild
         shell: bash
 
-  build-macos:
+      - name: Run release version
+        run: make run
+        shell: bash
+
+  run-macos:
     runs-on: macos-latest
     steps:
       - name: Checkout repo
@@ -45,7 +49,11 @@ jobs:
         run: make rebuild
         shell: bash
 
-  build-windows:
+      - name: Run release version
+        run: make run
+        shell: bash
+
+  run-windows:
     runs-on: windows-latest
     steps:
       - name: Checkout repo
@@ -53,4 +61,8 @@ jobs:
 
       - name: Rebuild
         run: make rebuild
+        shell: bash
+
+      - name: Run release version
+        run: make run
         shell: bash

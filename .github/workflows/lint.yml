@@ -1,0 +1,43 @@
+name: C++ Cross-Platform Lint
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format clang-tidy
+
+      - name: Lint
+        run: make lint
+        shell: bash
+
+  lint-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install build tools
+        run: brew install llvm
+
+      - name: Lint
+        run: make lint
+        shell: bash
+
+  lint-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Lint
+        run: make lint
+        shell: bash
