@@ -47,11 +47,11 @@ jobs:
 
       - name: Rebuild
         run: make rebuild
-        shell: /usr/local/bin/bash
+        shell: ${{ env.BASH_PATH }}
 
       - name: Run release version
         run: make run
-        shell: /usr/local/bin/bash
+        shell: ${{ env.BASH_PATH }}
 
   build-windows:
     runs-on: windows-latest
