@@ -33,17 +33,18 @@ jobs:
         run: brew list gcc &>/dev/null || brew install gcc
 
       - name: Install modern Bash
+        run: brew install bash
+
+      - name: Update path
         run: |
-          brew install bash
-          if [ -x /opt/homebrew/bin/bash ]; then
-            BASH_PATH=/opt/homebrew/bin/bash
-          elif [ -x /usr/local/bin/bash ]; then
-            BASH_PATH=/usr/local/bin/bash
+          if [ -x /opt/homebrew/bin ]; then
+            echo "/opt/homebrew/bin" >> $GITHUB_PATH
+          elif [ -x /usr/local/bin ]; then
+            echo "/usr/local/bin" >> $GITHUB_PATH
           else
-            echo "Modern Bash not found. Exiting."
+            echo "Bin folder not found. Exiting."
             exit 1
           fi
-          echo "BASH_PATH=$BASH_PATH" >> $GITHUB_ENV
 
       - name: Rebuild
         run: make rebuild
