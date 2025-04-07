@@ -28,6 +28,19 @@ jobs:
       - name: Install build tools
         run: brew install llvm
 
+      - name: Install modern Bash
+        run: |
+          brew install bash
+          if [ -x /opt/homebrew/bin/bash ]; then
+            BASH_PATH=/opt/homebrew/bin/bash
+          elif [ -x /usr/local/bin/bash ]; then
+            BASH_PATH=/usr/local/bin/bash
+          else
+            echo "Modern Bash not found. Exiting."
+            exit 1
+          fi
+          echo "BASH_PATH=$BASH_PATH" >> $GITHUB_ENV
+
       - name: Lint
         run: make lint
         shell: bash
