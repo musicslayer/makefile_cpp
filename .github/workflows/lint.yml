@@ -42,6 +42,15 @@ jobs:
             exit 1
           fi
 
+          if [ -x /opt/homebrew/opt/llvm/bin ]; then
+            echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
+          elif [ -x /usr/local/opt/llvm/bin ]; then
+            echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
+          else
+            echo "Bin folder not found. Exiting."
+            exit 1
+          fi
+
       - name: Lint
         run: make lint
         shell: bash
