@@ -1,0 +1,39 @@
+name: C++ Cross-Platform Build & Run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-run:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up bash on Windows
+        if: runner.os == 'Windows'
+        shell: bash
+        run: echo "Using bash shell on Windows"
+
+      - name: Install build tools (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+
+      - name: Install build tools (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install gcc || true
+
+      - name: Rebuild
+        run: make rebuild
+        shell: bash
+
+      - name: Run release version
+        run: make run
+        shell: bash
