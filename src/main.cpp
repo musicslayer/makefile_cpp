@@ -1,7 +1,8 @@
 #include "app.h"
 
 int main() {
-    App::run();
+    const App app = App();
+    app.run();
 
     return 0;
 }
