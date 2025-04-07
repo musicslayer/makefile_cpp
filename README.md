@@ -35,7 +35,7 @@ make rebuild # Clean and rebuild everything
 make release # Build the release version
 ```
 
-Note that all of these (except rebuild) can be done in parallel. For example:
+Note that all of these can be done in parallel. For example:
 ```
 make -j8 all
 ```
