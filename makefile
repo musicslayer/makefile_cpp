@@ -40,20 +40,22 @@ HDRS := $(shell bash -c 'shopt -s globstar nullglob; echo $(HDR_DIR)/**/*.h')
 # Compiler
 CXX := g++
 
-CXXFLAGS := -I $(HDR_DIR) -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP
+BASE_FLAGS := -I $(HDR_DIR) -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP
+BUILD_FLAGS :=
 ifeq ($(OS_NAME),linux)
-    CXXFLAGS += -DLINUX
+    BASE_FLAGS += -DLINUX
 endif
 ifeq ($(OS_NAME),mac)
-    CXXFLAGS += -DMACOS
+    BASE_FLAGS += -DMACOS
 endif
 ifeq ($(OS_NAME),win)
-    CXXFLAGS += -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++
+    BASE_FLAGS += -DWIN32
+	BUILD_FLAGS += -mconsole -pthread -static -static-libgcc -static-libstdc++
 endif
 
-CXXFLAGS_LINT := $(CXXFLAGS) -Wno-unknown-warning-option -Wno-unused-command-line-argument
-CXXFLAGS_RELEASE := $(CXXFLAGS) -O2
-CXXFLAGS_DEBUG := $(CXXFLAGS) -g -O0
+CXXFLAGS_LINT := $(BASE_FLAGS)
+CXXFLAGS_RELEASE := $(BASE_FLAGS) $(BUILD_FLAGS) -O2
+CXXFLAGS_DEBUG := $(BASE_FLAGS) $(BUILD_FLAGS) -g -O0
 
 # Output
 OUTPUT_DIR := output
