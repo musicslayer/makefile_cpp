@@ -4,29 +4,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-run:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-
+  build-run-linux:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up bash on Windows
-        if: runner.os == 'Windows'
-        shell: bash
-        run: echo "Using bash shell on Windows"
-
-      - name: Install build tools (Linux)
-        if: runner.os == 'Linux'
+      - name: Install build tools
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential
 
-      - name: Install build tools (macOS)
-        if: runner.os == 'macOS'
+      - name: Rebuild
+        run: make rebuild
+        shell: bash
+
+      - name: Run release version
+        run: make run
+        shell: bash
+
+  build-run-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install build tools
         run: |
           brew install gcc || true
 
@@ -37,3 +40,18 @@ jobs:
       - name: Run release version
         run: make run
         shell: bash
+
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Rebuild
+        run: make rebuild
+
+      - name: Run release version
+        run: make run
