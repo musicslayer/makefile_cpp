@@ -128,7 +128,9 @@ lint:
 	@$(CLANG_TIDY) --quiet $(SRCS) $(HDRS) -- -x c++ $(CXXFLAGS_LINT)
 
 .PHONY: rebuild
-rebuild: clean all
+rebuild:
+	@$(MAKE) --no-print-directory clean
+	@$(MAKE) --no-print-directory all
 
 .PHONY: release
 release: $(BIN_DIR_RELEASE)/$(APP_NAME_RELEASE)

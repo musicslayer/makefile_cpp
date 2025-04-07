@@ -1,8 +1,7 @@
 #include "app.h"
 
 int main() {
-    App app = App();
-    app.run();
-    
+    App::run();
+
     return 0;
 }
