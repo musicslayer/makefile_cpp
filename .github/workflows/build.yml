@@ -32,25 +32,27 @@ jobs:
       - name: Install build tools
         run: brew list gcc &>/dev/null || brew install gcc
 
+      - name: Install modern Bash
+        run: brew install bash
+
       - name: Rebuild
         run: make rebuild
-        shell: bash
+        shell: /opt/homebrew/bin/bash
 
       - name: Run release version
         run: make run
-        shell: bash
+        shell: /opt/homebrew/bin/bash
 
   build-windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Rebuild
         run: make rebuild
+        shell: bash
 
       - name: Run release version
         run: make run
+        shell: bash
