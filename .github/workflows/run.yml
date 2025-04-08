@@ -20,7 +20,7 @@ jobs:
         shell: bash
 
       - name: Run release version
-        run: make run | tee run-linux-output.txt
+        run: make run 2>&1 | tee run-linux-output.txt
         shell: bash
 
       - name: Upload run results
@@ -56,7 +56,7 @@ jobs:
         shell: bash
 
       - name: Run release version
-        run: make run | tee run-macos-output.txt
+        run: make run 2>&1 | tee run-macos-output.txt
         shell: bash
 
       - name: Upload run results
@@ -76,7 +76,7 @@ jobs:
         shell: bash
 
       - name: Run release version
-        run: make run | tee run-windows-output.txt
+        run: make run 2>&1 | tee run-windows-output.txt
         shell: bash
 
       - name: Upload run results
