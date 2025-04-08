@@ -86,7 +86,7 @@ jobs:
       - name: Install tools
         run: |
           if ! command -v clang-tidy &>/dev/null || ! command -v clang-format &>/dev/null; then
-            choco install llvm -y
+            powershell -Command "choco install llvm -y"
           fi
 
       - name: Update path
