@@ -6,6 +6,9 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -17,10 +20,12 @@ jobs:
 
       - name: Rebuild
         run: make rebuild VERBOSE=1
-        shell: bash
 
   build-macos:
     runs-on: macos-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -43,13 +48,21 @@ jobs:
 
       - name: Rebuild
         run: make rebuild VERBOSE=1
-        shell: bash
 
   build-windows:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
+      - name: Install tools
+        run: choco install mingw -y
+
+      - name: Update path
+        run: echo "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin" >> $GITHUB_PATH
 
       - name: Rebuild
         run: make rebuild VERBOSE=1
