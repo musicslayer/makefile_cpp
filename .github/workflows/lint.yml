@@ -15,12 +15,11 @@ jobs:
 
       - name: Install tools
         run: |
-          if ! dpkg -s clang-tidy &>/dev/null; then
-            sudo apt-get update
+          sudo apt-get update
+          if ! dpkg -s clang-tidy &>/dev/null; then  
             sudo apt-get install -y clang-tidy
           fi
           if ! dpkg -s clang-format &>/dev/null; then
-            sudo apt-get update
             sudo apt-get install -y clang-format
           fi
 
@@ -86,7 +85,7 @@ jobs:
 
       - name: Install tools
         run: |
-          if ! choco list --local-only --exact llvm | grep -Eiq '^llvm '; then
+          if ! command -v clang-tidy &>/dev/null || ! command -v clang-format &>/dev/null; then
             choco install llvm -y
           fi
 
