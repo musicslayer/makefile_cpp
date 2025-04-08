@@ -15,8 +15,10 @@ jobs:
 
       - name: Install tools
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
+          if ! dpkg -s g++ &>/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y g++
+          fi
 
       - name: Rebuild
         run: make rebuild VERBOSE=1
@@ -59,7 +61,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install tools
-        run: choco install mingw -y
+        run: choco list --local-only | grep -q '^mingw ' || choco install mingw -y
 
       - name: Update path
         run: echo "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin" >> $GITHUB_PATH
