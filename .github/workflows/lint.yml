@@ -85,7 +85,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install tools
-        run: choco list --local-only | grep -q '^llvm ' || choco install llvm -y
+        run: |
+          if ! choco list --local-only --exact llvm | grep -Eiq '^llvm '; then
+            choco install llvm -y
+          fi
 
       - name: Update path
         run: echo "C:\\Program Files\\LLVM\\bin" >> $GITHUB_PATH
