@@ -21,7 +21,7 @@ jobs:
           fi
 
       - name: Rebuild
-        run: make rebuild VERBOSE=1
+        run: make -j rebuild VERBOSE=1
 
       - name: Run release version
         run: make run 2>&1 | tee run-linux-output.txt
@@ -58,7 +58,7 @@ jobs:
           fi
 
       - name: Rebuild
-        run: make rebuild VERBOSE=1
+        run: make -j rebuild VERBOSE=1
 
       - name: Run release version
         run: make run 2>&1 | tee run-macos-output.txt
@@ -88,7 +88,7 @@ jobs:
         run: echo "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin" >> $GITHUB_PATH
 
       - name: Rebuild
-        run: make rebuild VERBOSE=1
+        run: make -j rebuild VERBOSE=1
 
       - name: Run release version
         run: make run 2>&1 | tee run-windows-output.txt
