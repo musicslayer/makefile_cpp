@@ -127,7 +127,6 @@ help:
 	@echo "  make format    - Run the formatter (uses .clang-format)"
 	@echo "  make help      - View all available targets"
 	@echo "  make lint      - Run the linter (uses .clang-tidy)"
-	@echo "  make rebuild   - Clean and rebuild everything"
 	@echo "  make release   - Build the release version"
 	@echo "  make run       - Build and run the release version"
 	@echo "  make run-debug - Build and run the debug version"
@@ -135,11 +134,6 @@ help:
 
 .PHONY: lint
 lint: $(SRCS:.cpp=.lint) $(HDRS:.h=.lint)
-
-.PHONY: rebuild
-rebuild:
-	@$(MAKE) --no-print-directory clean
-	@$(MAKE) --no-print-directory all
 
 .PHONY: release
 release: $(BIN_DIR_RELEASE)/$(APP_NAME_RELEASE)
