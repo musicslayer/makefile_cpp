@@ -6,17 +6,17 @@ AT = $(if $(filter 1,$(VERBOSE)),,@)
 OS_FULL_NAME := $(shell uname -s)
 OS_NAME =
 ifeq ($(OS_FULL_NAME),Linux)
-    OS_NAME = linux
+	OS_NAME = linux
 endif
 ifeq ($(OS_FULL_NAME),Darwin)
-    OS_NAME = mac
+	OS_NAME = mac
 endif
 ifneq (,$(findstring MINGW,$(OS_FULL_NAME)))
-    OS_NAME = win
+	OS_NAME = win
 endif
 
 ifeq ($(strip $(OS_NAME)),)
-    $(error Unsupported OS: $(OS_FULL_NAME))
+	$(error Unsupported OS: $(OS_FULL_NAME))
 endif
 
 ARCH_NAME := $(shell uname -m)
@@ -43,14 +43,14 @@ CXX := g++
 BASE_FLAGS := -I $(HDR_DIR) -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP
 BUILD_FLAGS :=
 ifeq ($(OS_NAME),linux)
-    BASE_FLAGS += -DLINUX
+	BASE_FLAGS += -DLINUX
 endif
 ifeq ($(OS_NAME),mac)
-    BASE_FLAGS += -DMACOS
+	BASE_FLAGS += -DMACOS
 endif
 ifeq ($(OS_NAME),win)
-    BASE_FLAGS += -DWIN32
-    BUILD_FLAGS += -mconsole -pthread -static -static-libgcc -static-libstdc++
+	BASE_FLAGS += -DWIN32
+	BUILD_FLAGS += -mconsole -pthread -static -static-libgcc -static-libstdc++
 endif
 
 CXXFLAGS_LINT := $(BASE_FLAGS)
@@ -78,39 +78,39 @@ DEPS_DEBUG := $(OBJS_DEBUG:.o=.d)
 .DEFAULT_GOAL := all
 
 $(BUILD_DIR_RELEASE)/%.o: $(SRC_DIR)/%.cpp
-    @mkdir -p $(dir $@)
-    $(AT)$(CXX) $(CXXFLAGS_RELEASE) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(AT)$(CXX) $(CXXFLAGS_RELEASE) -c $< -o $@
 
 $(BUILD_DIR_DEBUG)/%.o: $(SRC_DIR)/%.cpp
-    @mkdir -p $(dir $@)
-    $(AT)$(CXX) $(CXXFLAGS_DEBUG) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(AT)$(CXX) $(CXXFLAGS_DEBUG) -c $< -o $@
 
 $(BIN_DIR_RELEASE)/$(APP_NAME_RELEASE): $(OBJS_RELEASE)
-    @mkdir -p $(dir $@)
-    $(AT)$(CXX) $(CXXFLAGS_RELEASE) $^ -o $@
+	@mkdir -p $(dir $@)
+	$(AT)$(CXX) $(CXXFLAGS_RELEASE) $^ -o $@
 
 $(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG): $(OBJS_DEBUG)
-    @mkdir -p $(dir $@)
-    $(AT)$(CXX) $(CXXFLAGS_DEBUG) $^ -o $@
+	@mkdir -p $(dir $@)
+	$(AT)$(CXX) $(CXXFLAGS_DEBUG) $^ -o $@
 
 $(SRC_DIR)/%.format: $(SRC_DIR)/%.cpp
-    @$(CLANG_FORMAT) -i $< > /dev/null 2>&1 || true
+	@$(CLANG_FORMAT) -i $< > /dev/null 2>&1 || true
 
 $(HDR_DIR)/%.format: $(HDR_DIR)/%.h
-    @$(CLANG_FORMAT) -i $< > /dev/null 2>&1 || true
+	@$(CLANG_FORMAT) -i $< > /dev/null 2>&1 || true
 
 $(SRC_DIR)/%.lint: $(SRC_DIR)/%.cpp
-    @$(CLANG_TIDY) --quiet $< -- -x c++ $(CXXFLAGS_LINT) || true
+	@$(CLANG_TIDY) --quiet $< -- -x c++ $(CXXFLAGS_LINT) || true
 
 $(HDR_DIR)/%.lint: $(HDR_DIR)/%.h
-    @$(CLANG_TIDY) --quiet $< -- -x c++ $(CXXFLAGS_LINT) || true
+	@$(CLANG_TIDY) --quiet $< -- -x c++ $(CXXFLAGS_LINT) || true
 
 .PHONY: all
 all: release debug
 
 .PHONY: clean
 clean:
-    @rm -rf "$(OUTPUT_DIR)"
+	@rm -rf "$(OUTPUT_DIR)"
 
 .PHONY: debug
 debug: $(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG)
@@ -120,17 +120,17 @@ format: $(SRCS:.cpp=.format) $(HDRS:.h=.format)
 
 .PHONY: help
 help:
-    @echo "Available targets:"
-    @echo "  make all       - Build everything"
-    @echo "  make clean     - Remove all build artifacts"
-    @echo "  make debug     - Build the debug version"
-    @echo "  make format    - Run the formatter (uses .clang-format)"
-    @echo "  make help      - View all available targets"
-    @echo "  make lint      - Run the linter (uses .clang-tidy)"
-    @echo "  make release   - Build the release version"
-    @echo "  make run       - Build and run the release version"
-    @echo "  make run-debug - Build and run the debug version"
-    @echo "  make run-gdb   - Build and run the debug version in gdb"
+	@echo "Available targets:"
+	@echo "  make all       - Build everything"
+	@echo "  make clean     - Remove all build artifacts"
+	@echo "  make debug     - Build the debug version"
+	@echo "  make format    - Run the formatter (uses .clang-format)"
+	@echo "  make help      - View all available targets"
+	@echo "  make lint      - Run the linter (uses .clang-tidy)"
+	@echo "  make release   - Build the release version"
+	@echo "  make run       - Build and run the release version"
+	@echo "  make run-debug - Build and run the debug version"
+	@echo "  make run-gdb   - Build and run the debug version in gdb"
 
 .PHONY: lint
 lint: $(SRCS:.cpp=.lint) $(HDRS:.h=.lint)
@@ -140,12 +140,12 @@ release: $(BIN_DIR_RELEASE)/$(APP_NAME_RELEASE)
 
 .PHONY: run
 run: release
-    @$(BIN_DIR_RELEASE)/$(APP_NAME_RELEASE)
+	@$(BIN_DIR_RELEASE)/$(APP_NAME_RELEASE)
 
 .PHONY: run-debug
 run-debug: debug
-    @$(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG)
+	@$(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG)
 
 .PHONY: run-gdb
 run-gdb: debug
-    @gdb --args $(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG)
+	@gdb --args $(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG)
