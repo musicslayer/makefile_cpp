@@ -24,7 +24,7 @@ jobs:
           fi
 
       - name: Lint
-        run: make lint 2>&1 | tee lint-linux-output.txt
+        run: make -j lint 2>&1 | tee lint-linux-output.txt
 
       - name: Upload lint results
         uses: actions/upload-artifact@v4
@@ -66,7 +66,7 @@ jobs:
           fi
 
       - name: Lint
-        run: make lint 2>&1 | tee lint-macos-output.txt
+        run: make -j lint 2>&1 | tee lint-macos-output.txt
 
       - name: Upload lint results
         uses: actions/upload-artifact@v4
@@ -93,7 +93,7 @@ jobs:
         run: echo "C:\\Program Files\\LLVM\\bin" >> $GITHUB_PATH
 
       - name: Lint
-        run: make lint 2>&1 | tee lint-windows-output.txt
+        run: make -j lint 2>&1 | tee lint-windows-output.txt
 
       - name: Upload lint results
         uses: actions/upload-artifact@v4

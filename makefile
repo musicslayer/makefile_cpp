@@ -74,7 +74,9 @@ DEPS_RELEASE := $(OBJS_RELEASE:.o=.d)
 DEPS_DEBUG := $(OBJS_DEBUG:.o=.d)
 -include $(DEPS_RELEASE) $(DEPS_DEBUG)
 
-# Build Rules
+# Targets
+.DEFAULT_GOAL := all
+
 $(BUILD_DIR_RELEASE)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(AT)$(CXX) $(CXXFLAGS_RELEASE) -c $< -o $@
@@ -91,8 +93,17 @@ $(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG): $(OBJS_DEBUG)
 	@mkdir -p $(dir $@)
 	$(AT)$(CXX) $(CXXFLAGS_DEBUG) $^ -o $@
 
-# Targets
-.DEFAULT_GOAL := all
+$(SRC_DIR)/%.format: $(SRC_DIR)/%.cpp
+	@$(CLANG_FORMAT) -i $< > /dev/null 2>&1 || true
+
+$(HDR_DIR)/%.format: $(HDR_DIR)/%.h
+	@$(CLANG_FORMAT) -i $< > /dev/null 2>&1 || true
+
+$(SRC_DIR)/%.lint: $(SRC_DIR)/%.cpp
+	@$(CLANG_TIDY) --quiet $< -- -x c++ $(CXXFLAGS_LINT) || true
+
+$(HDR_DIR)/%.lint: $(HDR_DIR)/%.h
+	@$(CLANG_TIDY) --quiet $< -- -x c++ $(CXXFLAGS_LINT) || true
 
 .PHONY: all
 all: release debug
@@ -105,9 +116,7 @@ clean:
 debug: $(BIN_DIR_DEBUG)/$(APP_NAME_DEBUG)
 
 .PHONY: format
-format:
-	@echo "Formatting source files..."
-	@$(CLANG_FORMAT) -i $(SRCS) $(HDRS)
+format: $(SRCS:.cpp=.format) $(HDRS:.h=.format)
 
 .PHONY: help
 help:
@@ -125,9 +134,7 @@ help:
 	@echo "  make run-gdb   - Build and run the debug version in gdb"
 
 .PHONY: lint
-lint:
-	@echo "Linting source files..."
-	@$(CLANG_TIDY) --quiet $(SRCS) $(HDRS) -- -x c++ $(CXXFLAGS_LINT)
+lint: $(SRCS:.cpp=.lint) $(HDRS:.h=.lint)
 
 .PHONY: rebuild
 rebuild:

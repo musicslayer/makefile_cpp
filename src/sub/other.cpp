@@ -2,4 +2,6 @@
 
 #include <iostream>
 
-void other() { std::cout << "other\n"; }
+void other() {
+    std::cout << "other\n";
+}

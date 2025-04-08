@@ -1,4 +1,6 @@
 #include "app.h"
 #include "sub/other.h"
 
-void App::run() { other(); }
+void App::run() {
+    other();
+}
