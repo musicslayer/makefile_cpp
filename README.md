@@ -31,13 +31,12 @@ There are a few commands used to build the C++ code:
 ```
 make all     # Build everything
 make debug   # Build the debug version
-make rebuild # Clean and rebuild everything
 make release # Build the release version
 ```
 
 Note that all of these can be done in parallel. For example:
 ```
-make -j8 all
+make -j all
 ```
 
 As described above, the generated files will be in different subfolders depending on the OS and architecture you are building on as well as if it is the release or debug build.
@@ -49,8 +48,6 @@ You can remove all output files by executing:
 make clean
 ```
 
-This should not be done in parallel, and there should be no need to since it is just deleting one folder.
-
 # Formatting and Linting
 You can run Clang to format or lint your code:
 ```
@@ -58,7 +55,7 @@ make format
 make lint
 ```
 
-These will use ".clang-format" and ".clang-tidy" respectively. I recommend customizing those files to suit your needs.
+These will use ".clang-format" and ".clang-tidy" respectively. I recommend customizing those files to suit your needs. You can use the -j option to perform these operations in parallel.
 
 # Running
 There are 3 different ways to run the program:
@@ -69,7 +66,7 @@ make run-debug # Build and run the debug version
 make run-gdb   # Build and run the debug version in gdb
 ```
 
-If the executable doesn't exist or the source code has changed since it was last built, make will build/rebuild the code first. You can use the -j option to perform this building (if any) in parallel.
+If the executable doesn't exist or the source code has changed since it was last built, make will build the code first. You can use the -j option to perform this building (if any) in parallel.
 
 Note that "run" will run the release executable, while "run-debug" and "run-gdb" will use the debug executable. The makefile builds these two using different compiler flags, and thus there may be different behavior between the two.
 - Release uses -O2 whereas debug uses -O0, changing the amount of optimizations applied.
@@ -79,21 +76,21 @@ Note that "run" will run the release executable, while "run-debug" and "run-gdb"
 This makefile provides one variable that can be configured via the command line: VERBOSE. For example, the following produces no output (as long as there are no errors):
 
 ```
-make rebuild
+make all
 ```
 
 Whereas the following will produce output:
 
 ```
-make rebuild VERBOSE=1
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/app.cpp -o output/win_x86_64/build/release/app.o
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/main.cpp -o output/win_x86_64/build/release/main.o
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/sub/other.cpp -o output/win_x86_64/build/release/sub/other.o
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -O2 output/win_x86_64/build/release/app.o output/win_x86_64/build/release/main.o output/win_x86_64/build/release/sub/other.o -o output/win_x86_64/bin/release/myapp
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/app.cpp -o output/win_x86_64/build/debug/app.o
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/main.cpp -o output/win_x86_64/build/debug/main.o
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/sub/other.cpp -o output/win_x86_64/build/debug/sub/other.o
-g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -mconsole -DWIN32 -pthread -static -static-libgcc -static-libstdc++ -g -O0 output/win_x86_64/build/debug/app.o output/win_x86_64/build/debug/main.o output/win_x86_64/build/debug/sub/other.o -o output/win_x86_64/bin/debug/myapp_debug
+make all VERBOSE=1
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/app.cpp -o output/win_x86_64/build/release/app.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/main.cpp -o output/win_x86_64/build/release/main.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -O2 -c src/sub/other.cpp -o output/win_x86_64/build/release/sub/other.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -O2 output/win_x86_64/build/release/app.o output/win_x86_64/build/release/main.o output/win_x86_64/build/release/sub/other.o -o output/win_x86_64/bin/release/myapp
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/app.cpp -o output/win_x86_64/build/debug/app.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/main.cpp -o output/win_x86_64/build/debug/main.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -g -O0 -c src/sub/other.cpp -o output/win_x86_64/build/debug/sub/other.o
+g++ -I include -std=c++20 -Wall -Wextra -Werror -Wpedantic -MMD -MP -DWIN32 -mconsole -pthread -static -static-libgcc -static-libstdc++ -g -O0 output/win_x86_64/build/debug/app.o output/win_x86_64/build/debug/main.o output/win_x86_64/build/debug/sub/other.o -o output/win_x86_64/bin/debug/myapp_debug
 ```
 
 Setting VERBOSE to 1 allows for additional output, whereas setting it to any other value (or not setting it at all) suppresses the output. Note that not all make operations will produce additional output with the VERBOSE option.
