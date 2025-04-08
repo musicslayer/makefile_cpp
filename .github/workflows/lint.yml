@@ -16,14 +16,14 @@ jobs:
           sudo apt-get install -y clang-format clang-tidy
 
       - name: Lint
-        run: make lint | tee lint-output.txt
+        run: make lint | tee lint-linux-output.txt
         shell: bash
 
       - name: Upload lint results
         uses: actions/upload-artifact@v4
         with:
-          name: lint-output
-          path: lint-output.txt
+          name: lint-linux-output
+          path: lint-linux-output.txt
 
   lint-macos:
     runs-on: macos-latest
@@ -56,14 +56,14 @@ jobs:
           fi
 
       - name: Lint
-        run: make lint | tee lint-output.txt
+        run: make lint | tee lint-macos-output.txt
         shell: bash
 
       - name: Upload lint results
         uses: actions/upload-artifact@v4
         with:
-          name: lint-output
-          path: lint-output.txt
+          name: lint-macos-output
+          path: lint-macos-output.txt
 
   lint-windows:
     runs-on: windows-latest
@@ -72,11 +72,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Lint
-        run: make lint | tee lint-output.txt
+        run: make lint | tee lint-windows-output.txt
         shell: bash
 
       - name: Upload lint results
         uses: actions/upload-artifact@v4
         with:
-          name: lint-output
-          path: lint-output.txt
+          name: lint-windows-output
+          path: lint-windows-output.txt

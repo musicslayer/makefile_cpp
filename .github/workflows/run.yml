@@ -16,12 +16,18 @@ jobs:
           sudo apt-get install -y build-essential
 
       - name: Rebuild
-        run: make rebuild
+        run: make rebuild VERBOSE=1
         shell: bash
 
       - name: Run release version
-        run: make run
+        run: make run | tee run-linux-output.txt
         shell: bash
+
+      - name: Upload run results
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-linux-output
+          path: run-linux-output.txt
 
   run-macos:
     runs-on: macos-latest
@@ -46,12 +52,18 @@ jobs:
           fi
 
       - name: Rebuild
-        run: make rebuild
+        run: make rebuild VERBOSE=1
         shell: bash
 
       - name: Run release version
-        run: make run
+        run: make run | tee run-macos-output.txt
         shell: bash
+
+      - name: Upload run results
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-macos-output
+          path: run-macos-output.txt
 
   run-windows:
     runs-on: windows-latest
@@ -60,9 +72,15 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Rebuild
-        run: make rebuild
+        run: make rebuild VERBOSE=1
         shell: bash
 
       - name: Run release version
-        run: make run
+        run: make run | tee run-windows-output.txt
         shell: bash
+
+      - name: Upload run results
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-windows-output
+          path: run-windows-output.txt
