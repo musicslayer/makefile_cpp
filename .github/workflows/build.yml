@@ -15,8 +15,8 @@ jobs:
 
       - name: Install tools
         run: |
+          sudo apt-get update
           if ! dpkg -s g++ &>/dev/null; then
-            sudo apt-get update
             sudo apt-get install -y g++
           fi
 
