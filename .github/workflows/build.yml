@@ -62,8 +62,8 @@ jobs:
 
       - name: Install tools
         run: |
-          if ! choco list --local-only --exact mingw | grep -Eiq '^mingw '; then
-            choco install mingw -y
+          if ! command -v g++ &>/dev/null; then
+            powershell -Command "choco install mingw -y"
           fi
 
       - name: Update path
