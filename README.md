@@ -10,6 +10,14 @@ This repository contains a makefile and some simple C++ code. The purpose is to 
 - Command line options such as verbosity
 - Support for cpp and h files in subfolders
 
+# Environments
+This repository uses [GitHub Actions](https://github.com/musicslayer/makefile_cpp/actions) to test that this makefile works on Linux, MacOS, and Windows. There are three .yml files each capable of spawning a job run:
+- build.yml will test that the code can be built
+- lint.yml will lint the code
+- run.yml will test that the code can be built and that the release version can run
+
+Any output from linting and running is also copied into an artifact text file.
+
 # Folder Structure
 This makefile assumes a few things about the folder structure of your project:
 - All cpp files are in a folder called "src". They may be in subfolders.
@@ -55,7 +63,7 @@ make format
 make lint
 ```
 
-These will use ".clang-format" and ".clang-tidy" respectively. I recommend customizing those files to suit your needs. You can use the -j option to perform these operations in parallel.
+These will use ".clang-format" and ".clang-tidy" respectively. You can use the -j option to perform these operations in parallel.
 
 # Running
 There are 3 different ways to run the program:
